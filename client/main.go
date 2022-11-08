@@ -1,7 +1,7 @@
 package main
 
 import (
-    "bufio"
+    "encoding/gob"
     "fmt"
     "log"
     "net"
@@ -15,6 +15,10 @@ const (
     connType = "tcp"
 )
 
+type Client struct {
+    Id string
+}
+
 // Function that handles the errors
 func run() error {
     log.Println("Connecting to", connType, "server", connHost+":"+connPort)
@@ -25,22 +29,15 @@ func run() error {
         os.Exit(1)
     }
 
-    reader := bufio.NewReader(os.Stdin)
+    encoder := gob.NewEncoder(conn)
+    client := &Client{Id: "1"}
+    encoder.Encode(client)
 
-    // run loop forever, until exit.
-    for {
-        fmt.Print("Text to send: ")
-        input, _ := reader.ReadString('\n')
+    // for {
+    //     // TODO: create go routine that sends hearthbeat to server
+    // }
 
-        // Send to socket connection.
-        conn.Write([]byte(input))
-
-        // // Listen for relay.
-        // message, _ := bufio.NewReader(conn).ReadString('\n')
-
-        // // Print server relay.
-        // log.Print("Server relay: " + message)
-    }
+    return nil
 }
 
 func main() {

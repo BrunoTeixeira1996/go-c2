@@ -1,13 +1,12 @@
 package main
 
 import (
-    "bufio"
+    "encoding/gob"
     "fmt"
     "log"
     "net"
     "os"
 )
-
 
 const (
     SERVER_HOST = "localhost"
@@ -15,10 +14,8 @@ const (
     SERVER_TYPE = "tcp"
 )
 
-
 type Client struct {
     Id string
-    Os string
 }
 
 //TODO:
@@ -29,19 +26,13 @@ type Client struct {
 // - Client receive this confirmation and keeps listening on his socket
 
 func handleConnection(conn net.Conn) {
-    buffer, err := bufio.NewReader(conn).ReadBytes('\n')
+    dec := gob.NewDecoder(conn)
+    client := &Client{}
+    dec.Decode(client)
 
-    if err != nil {
-        log.Println("Client left.")
-        conn.Close()
-        return
-    }
+    fmt.Printf("Received :%+v", client)
 
-    log.Println("Client message:", string(buffer[:len(buffer)-1]))
-
-    conn.Write(buffer)
-
-    handleConnection(conn)
+    conn.Close()
 }
 
 // Function that handles the errors
@@ -66,7 +57,7 @@ func run() error {
             log.Println("Error accepting: ", err.Error())
             return err
         }
-        
+
         fmt.Println("Client connected")
         go handleConnection(connection)
     }
