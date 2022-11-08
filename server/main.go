@@ -16,6 +16,9 @@ const (
 
 type Client struct {
     Id string
+    Hostname string
+    Os string
+    Arch string
 }
 
 //TODO:

@@ -6,6 +6,7 @@ import (
     "log"
     "net"
     "os"
+    "runtime"
 )
 
 // Application constants, defining host, port, and protocol.
@@ -16,7 +17,20 @@ const (
 )
 
 type Client struct {
-    Id string
+    Id       string
+    Hostname string
+    Os       string
+    Arch     string
+}
+
+func (cli *Client) getClientOsAndArch() {
+    cli.Os = runtime.GOOS
+    cli.Arch = runtime.GOARCH
+}
+
+//TODO: Only handles linux for now
+func (cli *Client) getHostName() {
+    cli.Hostname, _ = os.Hostname()
 }
 
 // Function that handles the errors
@@ -31,6 +45,8 @@ func run() error {
 
     encoder := gob.NewEncoder(conn)
     client := &Client{Id: "1"}
+    client.getClientOsAndArch()
+    client.getHostName()
     encoder.Encode(client)
 
     // for {
