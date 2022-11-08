@@ -7,6 +7,8 @@ import (
     "net"
     "os"
     "runtime"
+
+    "github.com/google/uuid"
 )
 
 // Application constants, defining host, port, and protocol.
@@ -23,12 +25,17 @@ type Client struct {
     Arch     string
 }
 
+func (cli *Client) generateRandomId() {
+    id := uuid.New()
+    cli.Id = id.String()
+}
+
 func (cli *Client) getClientOsAndArch() {
     cli.Os = runtime.GOOS
     cli.Arch = runtime.GOARCH
 }
 
-//TODO: Only handles linux for now
+// TODO: Only handles linux for now
 func (cli *Client) getHostName() {
     cli.Hostname, _ = os.Hostname()
 }
@@ -56,7 +63,7 @@ func run() error {
     return nil
 }
 
-func main() {
+func main() {)
     if err := run(); err != nil {
         fmt.Fprint(os.Stderr, err)
         os.Exit(1)

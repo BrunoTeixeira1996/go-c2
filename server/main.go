@@ -19,10 +19,12 @@ type Client struct {
     Hostname string
     Os string
     Arch string
+    // IP
+    // PORT
 }
 
 //TODO:
-// - Recieve Client struct from socket
+// CHECK EXCALIDRAW DRAWING
 // - Verify that this is a new Client
 // - Add this client to a slice of clients
 // - After all this, send confirmation to client socket
