@@ -64,8 +64,8 @@ func handleRegister(conn net.Conn, server *Server) {
     server.sendConfirmationMessageToClient(client)
 }
 
-// Starts server register socket
-func startRegisterSocket() error {
+// Starts server
+func startServer() error {
     var err error
     server := &Server{}
     server.assignData()
@@ -80,24 +80,35 @@ func startRegisterSocket() error {
 
     log.Println("Listening on " + server.Host + ":" + server.Port)
 
+
+    mainChannel:=make(chan struct{})
+    defer close(mainChannel)
+
+    go func() {
+        for {
+            select {
+            case <-time.After(1*time.Second): // do action at interval
+            case <-mainChannel: // main closed, time to stop
+                return 
+            }
+            showClients(*server) // the action
+        }
+    }()
+
+    // Waits for new Client connections
     for {
-        // TODO: This Accept is a blocking operation, I don't want that
         connection, err := server.ServerSocket.Accept()
         if err != nil {
             log.Println("Error accepting: ", err.Error())
             return err
         }
-
         go handleRegister(connection, server)
-        //go showClients(*server)
     }
+
 }
 
 // Debug function
 func showClients(server Server) {
-    time.Sleep(5 * time.Second)
-    fmt.Println("Acordei...")
-    
     for _, client := range server.Clients {
         fmt.Println(client)
     }
@@ -105,7 +116,7 @@ func showClients(server Server) {
 
 // Function that handles the errors
 func run() error {
-    err := startRegisterSocket()
+    err := startServer()
     if err != nil {
         return err
     }

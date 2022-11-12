@@ -8,6 +8,9 @@ import (
     "os"
     "runtime"
     "github.com/google/uuid"
+    "math/rand"
+    "time"
+    "strconv"
 )
 
 const (
@@ -40,9 +43,17 @@ func (cli *Client) getHostName() {
     cli.Hostname, _ = os.Hostname()
 }
 
+// Debug function that generates random numbers to use in Port
+func randInt(min int, max int) int {
+    return min + rand.Intn(max-min)
+}
+
+
 func createNewCli() Client{
-    // TODO: create random ports for now to work with multiple clients
-    client := Client{IP: "localhost", Port: "9000"}
+    rand.Seed(time.Now().UTC().UnixNano())
+    randomPort := randInt(9000, 9999)
+    
+    client := Client{IP: "localhost", Port: strconv.Itoa(randomPort)}
     client.generateRandomId()
     client.getClientOsAndArch()
     client.getHostName()
@@ -96,6 +107,10 @@ func verifyRegister(client Client)  error {
     }
     
     fmt.Println(string(serverMsg[:serverMsgLen]))
+
+    // Debuging, blocking to test with multiple clients
+    var name string
+    fmt.Scanf("%s", &name)
 
     return nil
 }

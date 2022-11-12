@@ -1,12 +1,10 @@
 # Todo
 
-- Having a problem on `Accept()` on server since it blocks all goroutines
-  - https://stackoverflow.com/questions/29948497/tcp-accept-and-go-concurrency-model
-
+- Wait for `stdin` and for `Accept`
+  - https://gist.github.com/mmirolim/fe3a77eb29af192ca9de
+  
 - Register logic (Go routine that handles incoming registers and exits on Ctrl+C)
-  - Client receive this confirmation and keeps listening on his socket (Client receives this info but exits for now)
-
-- Go routine that handles stdin to send comands to clients from server
+  - Client receive this confirmation and keeps listening on his socket (Client receives this info but exits for now so I added a Scanf to prevent the exit)
 
 - Create log folder
     - Create file that logs registers and exists
