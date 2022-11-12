@@ -89,10 +89,13 @@ func verifyRegister(client Client)  error {
     serverMsg := make([]byte, 1024)
     serverMsgLen, err := connection.Read(serverMsg)
 
+
     // TODO: make a new register message
     if string(serverMsg[:serverMsgLen]) != "REGISTERED" {
         return fmt.Errorf("Something went wrong and the client was not registered by server")
     }
+    
+    fmt.Println(string(serverMsg[:serverMsgLen]))
 
     return nil
 }
