@@ -1,11 +1,10 @@
 # Todo
 
-- Create server struct that has slice of clients + ip, port and server type (DONE)
-  - Register client socket
+- Having a problem on `Accept()` on server since it blocks all goroutines
+  - https://stackoverflow.com/questions/29948497/tcp-accept-and-go-concurrency-model
 
 - Register logic (Go routine that handles incoming registers and exits on Ctrl+C)
-  - Client receive this confirmation and keeps listening on his socket 
-  - Work with multiple clients to test this
+  - Client receive this confirmation and keeps listening on his socket (Client receives this info but exits for now)
 
 - Go routine that handles stdin to send comands to clients from server
 

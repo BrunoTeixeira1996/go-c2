@@ -6,27 +6,8 @@ import (
     "log"
     "net"
     "os"
+    "time"
 )
-
-const (
-    SERVER_HOST = "localhost"
-    SERVER_PORT = "9988"
-    SERVER_TYPE = "tcp"
-)
-
-type Server struct {
-    Clients      []Client
-    ServerSocket net.Listener
-    Host         string
-    Port         string
-    Type         string
-}
-
-func (server *Server) assignData() {
-    server.Host = "localhost"
-    server.Port = "9988"
-    server.Type = "tcp"
-}
 
 type Client struct {
     Id         string
@@ -37,21 +18,37 @@ type Client struct {
     Port       string
 }
 
-func handleConnection(conn net.Conn) {
-    dec := gob.NewDecoder(conn)
-    client := &Client{}
-    dec.Decode(client)
-
-    fmt.Printf("Received :%+v", client)
-
-    conn.Close()
+type Server struct {
+    Host         string
+    Port         string
+    Type         string
+    ServerSocket net.Listener
+    Clients      []Client
 }
 
+// Starts boilerplate data on server
+func (server *Server) assignData() {
+    server.Host = "localhost"
+    server.Port = "9988"
+    server.Type = "tcp"
+}
+
+// Send message informing client that he was registered
+func (server *Server) sendConfirmationMessageToClient(client *Client) {
+    clientConn, err := net.Dial("tcp", client.IP+":"+client.Port)
+    if err != nil {
+        log.Println("Error connecting to client socket:", err.Error())
+    } else {
+        clientConn.Write([]byte("REGISTERED"))
+    }
+}
+
+// Function that handles the registration phase
 func handleRegister(conn net.Conn, server *Server) {
     dec := gob.NewDecoder(conn)
     client := &Client{}
     dec.Decode(client)
-
+    
     for _, registeredClient := range server.Clients{
         if client.Id == registeredClient.Id {
             log.Println("This client already exists")
@@ -59,20 +56,15 @@ func handleRegister(conn net.Conn, server *Server) {
         }
     }
 
+    // Appends new client to Clients slice
     server.Clients = append(server.Clients, *client)
-    fmt.Printf("Client %s added to slice\n", client.Id)
-    
+    log.Printf("Client %s added to slice\n", client.Id)
 
-    // Sends confirmation to client socket
-    clientConn, err := net.Dial("tcp", client.IP+":"+client.Port)
-    if err != nil {
-        log.Println("Error connecting to client socket:", err.Error())
-    } else {
-        log.Println("Connected with client")
-        clientConn.Write([]byte("REGISTERED"))
-    }
+    // Sends confirmation mesage to client so he knows that he was accepted
+    server.sendConfirmationMessageToClient(client)
 }
 
+// Starts server register socket
 func startRegisterSocket() error {
     var err error
     server := &Server{}
@@ -89,20 +81,30 @@ func startRegisterSocket() error {
     log.Println("Listening on " + server.Host + ":" + server.Port)
 
     for {
+        // TODO: This Accept is a blocking operation, I don't want that
         connection, err := server.ServerSocket.Accept()
-
         if err != nil {
             log.Println("Error accepting: ", err.Error())
             return err
         }
 
         go handleRegister(connection, server)
+        //go showClients(*server)
+    }
+}
+
+// Debug function
+func showClients(server Server) {
+    time.Sleep(5 * time.Second)
+    fmt.Println("Acordei...")
+    
+    for _, client := range server.Clients {
+        fmt.Println(client)
     }
 }
 
 // Function that handles the errors
 func run() error {
-    // Starts server register socket
     err := startRegisterSocket()
     if err != nil {
         return err
