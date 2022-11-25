@@ -6,7 +6,9 @@ import (
     "log"
     "net"
     "os"
-    "time"
+    //"time"
+    "bufio"
+    "strings"
 )
 
 type Client struct {
@@ -37,7 +39,8 @@ func (server *Server) assignData() {
 func (server *Server) sendConfirmationMessageToClient(client *Client) {
     clientConn, err := net.Dial("tcp", client.IP+":"+client.Port)
     if err != nil {
-        log.Println("Error connecting to client socket:", err.Error())
+        //log.Println("Error connecting to client socket:", err.Error())
+        fmt.Println("Error connecting to client socket:", err.Error())
     } else {
         clientConn.Write([]byte("REGISTERED"))
     }
@@ -51,75 +54,87 @@ func handleRegister(conn net.Conn, server *Server) {
     
     for _, registeredClient := range server.Clients{
         if client.Id == registeredClient.Id {
-            log.Println("This client already exists")
+            //log.Println("This client already exists")
+            fmt.Println("This client already exists")
             conn.Close()
         }
     }
 
     // Appends new client to Clients slice
     server.Clients = append(server.Clients, *client)
-    log.Printf("Client %s added to slice\n", client.Id)
+    //log.Printf("Client %s added to slice\n", client.Id)
+    fmt.Printf("\nClient %s added to slice\n", client.Id)
 
     // Sends confirmation mesage to client so he knows that he was accepted
     server.sendConfirmationMessageToClient(client)
 }
 
+// Debug function
+func showClients(server *Server) {
+    fmt.Println("==============")
+    for _, client := range server.Clients {
+        fmt.Println(client)
+    }
+    fmt.Println("==============")
+}
+
+// Function that waits for stdin commands
+func respondsToStdin(server *Server) {
+    for {
+        reader := bufio.NewReader(os.Stdin)
+        fmt.Print("\ncommand > ")
+        input, err := reader.ReadString('\n')
+        input = strings.TrimSpace(input)
+
+        if err != nil{
+            log.Println("Error while reading the user input")
+        } else {
+            // TODO: switch case to grab the command
+            if input == "showClients" {
+                showClients(server)
+            } else if input == "exit" {
+                fmt.Println("Going to exit ...")
+                break
+            }
+        }
+
+    }
+
+}
+
+
 // Starts server
-func startServer() error {
-    var err error
-    server := &Server{}
+func startServer(server *Server) {
     server.assignData()
-    
+    var err error
+
     server.ServerSocket, err = net.Listen(server.Type, server.Host+":"+server.Port)
     if err != nil {
         log.Println("Error listening:", err.Error())
-        return err
     }
 
     defer server.ServerSocket.Close()
 
-    log.Println("Listening on " + server.Host + ":" + server.Port)
-
-
-    mainChannel:=make(chan struct{})
-    defer close(mainChannel)
-
-    go func() {
-        for {
-            select {
-            case <-time.After(1*time.Second): // do action at interval
-            case <-mainChannel: // main closed, time to stop
-                return 
-            }
-            showClients(*server) // the action
-        }
-    }()
-
+    //log.Println("\nListening on " + server.Host + ":" + server.Port)
     // Waits for new Client connections
     for {
+
         connection, err := server.ServerSocket.Accept()
         if err != nil {
             log.Println("Error accepting: ", err.Error())
-            return err
         }
         go handleRegister(connection, server)
     }
 
 }
 
-// Debug function
-func showClients(server Server) {
-    for _, client := range server.Clients {
-        fmt.Println(client)
-    }
-}
 
 // Function that handles the errors
 func run() error {
-    err := startServer()
-    if err != nil {
-        return err
-    }
+    server := &Server{}
+
+    go startServer(server) // starts listening for clients
+    respondsToStdin(server) // responds to stdin commands
 
     return nil
 }
