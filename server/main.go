@@ -10,6 +10,11 @@ import (
     "log"
 )
 
+const help = `help -> shows help
+showClients -> shows connected available clients
+exit -> exits the server
+`
+
 type Logger struct {
     infoLogger *log.Logger
     errorLogger *log.Logger
@@ -76,13 +81,44 @@ func handleRegister(conn net.Conn, server *Server, logger *Logger) {
     server.sendConfirmationMessageToClient(client, logger)
 }
 
-// Debug function
+// Function to show clients
 func showClients(server *Server) {
     fmt.Println("==============")
     for _, client := range server.Clients {
         fmt.Println(client)
     }
     fmt.Println("==============")
+}
+
+// Function to execute commands on client
+func useClient(input string, logger *Logger) {
+    //TODO: send command to client
+    // use <client id>
+    // if back exit this, otherwise its an infinite loop here
+  for {
+        if len(strings.Split(input, " ")) == 1 {
+            fmt.Println("Please provide the client id to execute commands")
+            break
+        }
+        reader := bufio.NewReader(os.Stdin)
+        fmt.Printf("\ncommand in client > ")
+        commandToClient, err := reader.ReadString('\n')
+        commandToClient = strings.TrimSpace(commandToClient)
+
+        if err != nil {
+            logger.errorLogger.Println("Error while reading the user input")
+            break
+        } else {
+            // TODO: verify if the client exists
+            // to do this, I should register the client to a db and then check the client status
+            // after that I could keep working on this
+            if commandToClient == "back" {
+                break
+            } else {
+                fmt.Println("Sent " + commandToClient + " to client")
+            }
+        }
+    }
 }
 
 // Function that waits for stdin commands
@@ -96,12 +132,21 @@ func respondsToStdin(server *Server, logger *Logger) {
         if err != nil{
             logger.errorLogger.Println("Error while reading the user input")
         } else {
-            // TODO: switch case to grab the command
-            if input == "showClients" {
+            // Working on this
+            switch {
+
+            case strings.Contains(input,"help"):
+                fmt.Println(help)
+
+            case strings.Contains(input, "showClients"):
                 showClients(server)
-            } else if input == "exit" {
-                fmt.Println("Going to exit ...")
-                break
+
+            case strings.HasPrefix(input, "use"):
+                useClient(input, logger)
+
+            case strings.Contains(input, "exit"):
+                fmt.Println("Going to exit...")
+                return
             }
         }
 
