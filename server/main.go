@@ -3,13 +3,22 @@ package main
 import (
     "encoding/gob"
     "fmt"
-    "log"
     "net"
     "os"
-    //"time"
     "bufio"
     "strings"
+    "log"
 )
+
+type Logger struct {
+    infoLogger *log.Logger
+    errorLogger *log.Logger
+}
+
+func (l *Logger) start(logFile *os.File) {
+    l.infoLogger = log.New(logFile, "INFO: ", log.LstdFlags | log.Lshortfile)
+    l.errorLogger = log.New(logFile, "ERROR: ", log.LstdFlags | log.Lshortfile)
+}
 
 type Client struct {
     Id         string
@@ -36,37 +45,35 @@ func (server *Server) assignData() {
 }
 
 // Send message informing client that he was registered
-func (server *Server) sendConfirmationMessageToClient(client *Client) {
+func (server *Server) sendConfirmationMessageToClient(client *Client, logger *Logger) {
     clientConn, err := net.Dial("tcp", client.IP+":"+client.Port)
     if err != nil {
-        //log.Println("Error connecting to client socket:", err.Error())
-        fmt.Println("Error connecting to client socket:", err.Error())
+        logger.errorLogger.Println("Error connecting to client socket:", err.Error())
     } else {
         clientConn.Write([]byte("REGISTERED"))
     }
 }
 
 // Function that handles the registration phase
-func handleRegister(conn net.Conn, server *Server) {
+func handleRegister(conn net.Conn, server *Server, logger *Logger) {
     dec := gob.NewDecoder(conn)
     client := &Client{}
     dec.Decode(client)
     
     for _, registeredClient := range server.Clients{
         if client.Id == registeredClient.Id {
-            //log.Println("This client already exists")
-            fmt.Println("This client already exists")
+            logger.infoLogger.Println("This client already exists")
             conn.Close()
         }
     }
 
     // Appends new client to Clients slice
     server.Clients = append(server.Clients, *client)
-    //log.Printf("Client %s added to slice\n", client.Id)
-    fmt.Printf("\nClient %s added to slice\n", client.Id)
+
+    logger.infoLogger.Println("Client "+client.Id+" added to slice")
 
     // Sends confirmation mesage to client so he knows that he was accepted
-    server.sendConfirmationMessageToClient(client)
+    server.sendConfirmationMessageToClient(client, logger)
 }
 
 // Debug function
@@ -79,7 +86,7 @@ func showClients(server *Server) {
 }
 
 // Function that waits for stdin commands
-func respondsToStdin(server *Server) {
+func respondsToStdin(server *Server, logger *Logger) {
     for {
         reader := bufio.NewReader(os.Stdin)
         fmt.Print("\ncommand > ")
@@ -87,7 +94,7 @@ func respondsToStdin(server *Server) {
         input = strings.TrimSpace(input)
 
         if err != nil{
-            log.Println("Error while reading the user input")
+            logger.errorLogger.Println("Error while reading the user input")
         } else {
             // TODO: switch case to grab the command
             if input == "showClients" {
@@ -104,37 +111,48 @@ func respondsToStdin(server *Server) {
 
 
 // Starts server
-func startServer(server *Server) {
+func startServer(server *Server, logger *Logger) {
     server.assignData()
     var err error
 
     server.ServerSocket, err = net.Listen(server.Type, server.Host+":"+server.Port)
     if err != nil {
-        log.Println("Error listening:", err.Error())
+        logger.errorLogger.Println("Error listening:", err.Error())
     }
 
     defer server.ServerSocket.Close()
 
-    //log.Println("\nListening on " + server.Host + ":" + server.Port)
+    logger.infoLogger.Println("Listening on "+ server.Host + ":" + server.Port)
+
     // Waits for new Client connections
     for {
 
         connection, err := server.ServerSocket.Accept()
         if err != nil {
-            log.Println("Error accepting: ", err.Error())
+            logger.errorLogger.Println("Error accepting: ", err.Error())
         }
-        go handleRegister(connection, server)
+
+        go handleRegister(connection, server, logger)
     }
 
 }
 
-
 // Function that handles the errors
 func run() error {
+    logFile, err := os.OpenFile("/home/brun0/Desktop/workspace/go-c2/log/file.log", os.O_APPEND | os.O_CREATE | os.O_WRONLY, 0666)
+    if err != nil {
+        log.Fatalf("Error while seting up the log file", err)
+    }
+
+    defer logFile.Close()
+
+    logger := &Logger{}
+    logger.start(logFile)
+
     server := &Server{}
 
-    go startServer(server) // starts listening for clients
-    respondsToStdin(server) // responds to stdin commands
+    go startServer(server, logger) // starts listening for clients
+    respondsToStdin(server, logger) // responds to stdin commands
 
     return nil
 }
