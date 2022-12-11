@@ -19,9 +19,8 @@ type Client struct {
 }
 
 
-func testQuery() {
-    db, err := sql.Open("sqlite3", "/home/brun0/Desktop/workspace/go-c2/c2_db")
-    
+func selectAllClientsQuery() {
+    db, err := sql.Open("sqlite3", "/home/brun0/Desktop/go-c2/c2_db")
     if err != nil {
         log.Fatal(err)
     }
@@ -44,6 +43,17 @@ func testQuery() {
     }
 }
 
+// TODO
+func insertNewClientQuery() {
+
+}
+
+
+// TODO
+func deleteClientQuery() {
+
+}
+
 func main() {
-    testQuery()
+    selectAllClientsQuery()
 }

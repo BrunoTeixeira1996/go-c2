@@ -136,7 +136,7 @@ func respondsToStdin(server *Server, logger *Logger) {
             switch {
 
             case strings.Contains(input,"help"):
-                fmt.Println(help)
+                fmt.Printf(help)
 
             case strings.Contains(input, "showClients"):
                 showClients(server)
@@ -184,9 +184,9 @@ func startServer(server *Server, logger *Logger) {
 
 // Function that handles the errors
 func run() error {
-    logFile, err := os.OpenFile("/home/brun0/Desktop/workspace/go-c2/log/file.log", os.O_APPEND | os.O_CREATE | os.O_WRONLY, 0666)
+    logFile, err := os.OpenFile("/home/brun0/Desktop/go-c2/log/file.log", os.O_APPEND | os.O_CREATE | os.O_WRONLY, 0666)
     if err != nil {
-        log.Fatalf("Error while seting up the log file", err)
+        log.Fatalf("Error while seting up the log file %s", err)
     }
 
     defer logFile.Close()
