@@ -27,3 +27,24 @@ ERROR: 2022/12/12 17:22:55 main.go:57: Error connecting to client socket: dial t
 INFO: 2022/12/12 17:23:01 main.go:171: Listening on localhost:9988
 INFO: 2022/12/12 17:23:40 main.go:170: Listening on localhost:9988
 INFO: 2022/12/12 17:23:43 main.go:78: Client 4d910020-ed80-4ef4-a0a9-27c1cdd69bf1 added to slice
+INFO: 2022/12/12 21:50:48 main.go:170: Listening on localhost:9988
+INFO: 2022/12/12 21:50:50 main.go:78: Client a36aad01-4412-4930-9517-3679710473ad added to slice
+ERROR: 2022/12/12 21:50:50 main.go:56: Error connecting to client socket: dial tcp 127.0.0.1:9912: connect: connection refused
+INFO: 2022/12/12 21:51:07 main.go:78: Client d6d00f07-f76e-4e5b-a77d-cb810624b896 added to slice
+INFO: 2022/12/12 21:51:21 main.go:78: Client 7305badf-abd9-4542-9283-a67a02b697df added to slice
+INFO: 2022/12/12 21:53:27 main.go:171: Listening on localhost:9988
+INFO: 2022/12/12 21:53:30 main.go:79: Client 1eef016d-dcaf-4b08-a105-1f2608949a02 added to slice
+INFO: 2022/12/12 21:55:44 main.go:187: Listening on localhost:9988
+INFO: 2022/12/12 21:55:47 main.go:94: Client a7fe4679-5876-4163-a772-26fd6d7858d9 added to slice
+INFO: 2022/12/12 21:56:00 main.go:94: Client 9bc73757-f4c9-46df-9400-36b993496cf4 added to slice
+INFO: 2022/12/12 21:56:02 main.go:94: Client 533f7fb0-1523-4368-b8e7-80d30660ebc2 added to slice
+INFO: 2022/12/12 22:05:57 main.go:161: Listening on localhost:9988
+INFO: 2022/12/12 22:05:59 main.go:69: Client 4902e861-621f-49c9-a419-07c73d145665 added to database
+INFO: 2022/12/12 22:06:20 main.go:181: Listening on localhost:9988
+INFO: 2022/12/12 22:06:23 main.go:89: Client cd631983-fdd4-4fbc-994e-83ef40dc6e60 added to database
+INFO: 2022/12/12 22:06:28 main.go:89: Client 5a4351e8-b6b9-48cc-9c47-7dc472b4fd44 added to database
+INFO: 2022/12/12 22:07:27 main.go:189: Listening on localhost:9988
+INFO: 2022/12/12 22:08:41 main.go:158: Listening on localhost:9988
+INFO: 2022/12/12 22:09:04 main.go:158: Listening on localhost:9988
+INFO: 2022/12/12 22:09:07 main.go:66: Client 01430a4b-113e-4c40-904c-c0966bf465aa added to database
+INFO: 2022/12/12 22:09:14 main.go:66: Client c15f10e8-0f93-4ec1-a362-dcfc3785eb85 added to database

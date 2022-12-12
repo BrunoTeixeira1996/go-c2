@@ -36,25 +36,31 @@ func SelectAllClientsQuery() {
             &client.Hostname,
             &client.Os,
             &client.Arch,
-            &client.Ip,
+            &client.IP,
             &client.Port)
 
-        fmt.Printf("Id:%d Os: %s\n",client.Id, client.Os)
+        fmt.Printf("Id:%s Os: %s\n",client.Id, client.Os)
     }
 }
 
-// TODO
-func InsertNewClientQuery(client Client) {
+// Function that inserts new clients into database
+func InsertNewClientQuery(client Client) error {
     db := setupDBConnection()
     defer db.Close()
 
     statement, err := db.Prepare("INSERT INTO Clients (Hostname, Os, Arch, Ip, Port) VALUES (?, ?, ?, ?, ?)")
 
     if err != nil {
-        log.Fatal(err)
+        return err
     }
 
-    statement.Exec(client.Hostname, client.Os, client.Arch, client.Ip, client.Port)
+    _, err = statement.Exec(client.Hostname, client.Os, client.Arch, client.IP, client.Port)
+
+    if err != nil {
+        return err
+    }
+
+    return nil
 }
 
 

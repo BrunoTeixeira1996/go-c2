@@ -8,6 +8,7 @@ import (
     "bufio"
     "strings"
     "log"
+    "go-c2/server/utils"
 )
 
 const help = `help -> shows help
@@ -25,21 +26,13 @@ func (l *Logger) start(logFile *os.File) {
     l.errorLogger = log.New(logFile, "ERROR: ", log.LstdFlags | log.Lshortfile)
 }
 
-type Client struct {
-    Id         string
-    Hostname   string
-    Os         string
-    Arch       string
-    IP         string
-    Port       string
-}
 
 type Server struct {
     Host         string
     Port         string
     Type         string
     ServerSocket net.Listener
-    Clients      []Client
+    Clients      []utils.Client
 }
 
 // Starts boilerplate data on server
@@ -50,7 +43,7 @@ func (server *Server) assignData() {
 }
 
 // Send message informing client that he was registered
-func (server *Server) sendConfirmationMessageToClient(client *Client, logger *Logger) {
+func (server *Server) sendConfirmationMessageToClient(client *utils.Client, logger *Logger) {
     clientConn, err := net.Dial("tcp", client.IP+":"+client.Port)
     if err != nil {
         logger.errorLogger.Println("Error connecting to client socket:", err.Error())
@@ -62,20 +55,15 @@ func (server *Server) sendConfirmationMessageToClient(client *Client, logger *Lo
 // Function that handles the registration phase
 func handleRegister(conn net.Conn, server *Server, logger *Logger) {
     dec := gob.NewDecoder(conn)
-    client := &Client{}
+    client := &utils.Client{}
     dec.Decode(client)
-    
-    for _, registeredClient := range server.Clients{
-        if client.Id == registeredClient.Id {
-            logger.infoLogger.Println("This client already exists")
-            conn.Close()
-        }
+
+    err := utils.InsertNewClientQuery(*client)
+    if err != nil {
+        log.Fatal(err)
     }
 
-    // Appends new client to Clients slice
-    server.Clients = append(server.Clients, *client)
-
-    logger.infoLogger.Println("Client "+client.Id+" added to slice")
+    logger.infoLogger.Println("Client "+client.Id+" added to database")
 
     // Sends confirmation mesage to client so he knows that he was accepted
     server.sendConfirmationMessageToClient(client, logger)

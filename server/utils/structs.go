@@ -2,10 +2,10 @@ package utils
 
 
 type Client struct {
-    Id         int
-    Hostname   string
-    Os         string
-    Arch       string
-    Ip         string
-    Port       string
+    Id       string
+    Hostname string
+    Os       string
+    Arch     string
+    IP       string
+    Port     string
 }
