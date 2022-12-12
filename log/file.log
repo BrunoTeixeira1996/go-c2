@@ -16,3 +16,14 @@ INFO: 2022/11/26 16:50:08 main.go:172: Listening on localhost:9988
 INFO: 2022/11/26 16:50:21 main.go:172: Listening on localhost:9988
 INFO: 2022/11/26 16:50:31 main.go:172: Listening on localhost:9988
 INFO: 2022/12/11 19:35:35 main.go:170: Listening on localhost:9988
+INFO: 2022/12/12 17:19:45 main.go:170: Listening on localhost:9988
+INFO: 2022/12/12 17:19:48 main.go:78: Client c0ca9013-4dbf-4721-80fc-992dfc5e9190 added to slice
+INFO: 2022/12/12 17:22:41 main.go:171: Listening on localhost:9988
+INFO: 2022/12/12 17:22:43 main.go:79: Client  added to slice
+ERROR: 2022/12/12 17:22:43 main.go:57: Error connecting to client socket: dial tcp :0: connect: connection refused
+INFO: 2022/12/12 17:22:54 main.go:171: Listening on localhost:9988
+INFO: 2022/12/12 17:22:55 main.go:79: Client  added to slice
+ERROR: 2022/12/12 17:22:55 main.go:57: Error connecting to client socket: dial tcp :0: connect: connection refused
+INFO: 2022/12/12 17:23:01 main.go:171: Listening on localhost:9988
+INFO: 2022/12/12 17:23:40 main.go:170: Listening on localhost:9988
+INFO: 2022/12/12 17:23:43 main.go:78: Client 4d910020-ed80-4ef4-a0a9-27c1cdd69bf1 added to slice

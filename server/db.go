@@ -9,7 +9,7 @@ import (
 )
 
 
-type Client struct {
+type Clientx struct {
     Id         int
     Hostname   string
     Os         string
@@ -29,7 +29,7 @@ func selectAllClientsQuery() {
 
     rows, _ := db.Query("SELECT * FROM Clients")
 
-    var client Client
+    var client Clientx
     for rows.Next() {
         rows.Scan(
             &client.Id,
@@ -52,8 +52,4 @@ func insertNewClientQuery() {
 // TODO
 func deleteClientQuery() {
 
-}
-
-func main() {
-    selectAllClientsQuery()
 }
