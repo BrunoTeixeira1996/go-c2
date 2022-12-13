@@ -5,6 +5,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"go-c2/server/utils"
+    "go-c2/server/webserver"
 	"log"
 	"net"
 	"os"
@@ -167,6 +168,7 @@ func run() error {
     server := &utils.Server{}
 
     go startServer(server, logger) // starts listening for clients
+    go webserver.RunAPI() // starts API server
     respondsToStdin(server, logger) // responds to stdin commands
 
     return nil

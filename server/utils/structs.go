@@ -57,7 +57,7 @@ func (server *Server) SendCommandToClient(client Client, input string, logger *L
 }
 
 
-
+// Struct that represents a client
 type Client struct {
     Id       string
     Hostname string
@@ -66,4 +66,12 @@ type Client struct {
     IP       string
     Port     string
     Uid      string
+}
+
+
+// Struct to handle data for the API
+type Data struct {
+    Command string    `json:"command"`
+    Result  string    `json:"result"`
+    Time    string    `json:"time"`
 }

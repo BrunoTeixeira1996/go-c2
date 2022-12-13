@@ -11,8 +11,10 @@ import (
 	"runtime"
 	"strconv"
 	"time"
-
+    "bytes"
+    "encoding/json"
 	"github.com/google/uuid"
+    "net/http"
 )
 
 const (
@@ -110,6 +112,41 @@ func verifyRegister(client Client)  (net.Listener, error) {
     return clientSocket, nil
 }
 
+
+// Struct to handle data to respond
+type Data struct {
+    Command string    `json:"command"`
+    Result  string    `json:"result"`
+    Time    string    `json:"time"`
+}
+
+//curl -X POST http://localhost:8080 -H 'Content-Type: application/json' -d '{"command":"my command","result":"my result", "time":"my time"}'
+
+// Function to send request to server API
+func respondToServer() error {
+    data := &Data{
+        Command:  "my command", // TODO: get server command
+        Result:   "my result",  // TODO: get result
+        Time:     "my time",    // TODO: get the real timestamp
+    }
+
+    tempBuffer := new(bytes.Buffer)
+    err := json.NewEncoder(tempBuffer).Encode(data)
+    if err != nil {
+        return err
+    }
+
+    resp, err := http.Post("http://localhost:8080/", "application/json", tempBuffer) // TODO: fix this hardcoded stuff
+    if err != nil {
+        fmt.Println(err)
+        return err
+    }
+    defer resp.Body.Close()
+
+    return nil
+}
+
+
 // Function that recieves commands from server
 func getCommands(client Client, clientSocket net.Listener) error {
     for {
@@ -137,8 +174,10 @@ func getCommands(client Client, clientSocket net.Listener) error {
 
         // TODO:send response to server web app
         fmt.Println(string(out))
+        respondToServer()
     }
 }
+
 
 // Function that handles the errors
 func run() error {

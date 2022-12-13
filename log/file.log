@@ -147,3 +147,24 @@ INFO: 2022/12/13 15:06:03 main.go:34: Client 570eba5f-b475-48c3-9dc2-d3340fd1cea
 INFO: 2022/12/13 16:44:23 main.go:141: Listening on localhost:9988
 INFO: 2022/12/13 16:44:24 main.go:34: Client 2bea6e1f-675b-4bcd-9ab9-44f9334733ad added to database
 INFO: 2022/12/13 16:46:04 main.go:34: Client 1179c061-5426-41a9-96c4-de42a569eea2 added to database
+INFO: 2022/12/13 17:42:39 main.go:141: Listening on localhost:9988
+INFO: 2022/12/13 17:53:55 main.go:141: Listening on localhost:9988
+INFO: 2022/12/13 17:54:05 main.go:35: Client 2ebcd6aa-9af4-43f0-801b-098acf7f8b20 added to database
+INFO: 2022/12/13 17:55:22 main.go:35: Client d0c60457-7824-420a-bd7d-f56d549b9f44 added to database
+INFO: 2022/12/13 17:56:15 main.go:141: Listening on localhost:9988
+INFO: 2022/12/13 17:56:17 main.go:35: Client 3bee7f45-82e8-40cb-abb5-127793e30c5e added to database
+ERROR: 2022/12/13 17:56:42 structs.go:52: Error connecting to client socket: dial tcp [::1]:9765: connect: connection refused
+ERROR: 2022/12/13 17:56:45 structs.go:52: Error connecting to client socket: dial tcp [::1]:9765: connect: connection refused
+INFO: 2022/12/13 17:57:09 main.go:141: Listening on localhost:9988
+INFO: 2022/12/13 17:57:11 main.go:35: Client b591a92a-96ec-4789-81af-36e3777d842d added to database
+INFO: 2022/12/13 17:58:11 main.go:141: Listening on localhost:9988
+INFO: 2022/12/13 17:58:14 main.go:35: Client 46b885fd-faab-442f-bfe2-6c4742a2ca10 added to database
+INFO: 2022/12/13 18:07:45 main.go:141: Listening on localhost:9988
+INFO: 2022/12/13 18:07:47 main.go:35: Client d1256a35-775e-4cd4-ae41-1f78f70a7282 added to database
+INFO: 2022/12/13 18:09:54 main.go:35: Client cc97b1ff-2d40-430b-893d-3b7125f4c98a added to database
+INFO: 2022/12/13 18:11:49 main.go:141: Listening on localhost:9988
+INFO: 2022/12/13 18:11:50 main.go:35: Client 55f62dfe-f71a-4b25-8d66-a814c8013500 added to database
+INFO: 2022/12/13 18:13:44 main.go:141: Listening on localhost:9988
+INFO: 2022/12/13 18:13:46 main.go:35: Client 688bf592-ec15-4bcc-8161-0ada81a1885d added to database
+INFO: 2022/12/13 18:17:18 main.go:141: Listening on localhost:9988
+INFO: 2022/12/13 18:17:20 main.go:35: Client 9a028923-58a0-485c-a673-892083a0867d added to database
