@@ -1,6 +1,7 @@
 # Todo
 
-- Define commands to send to clients in a simple way (`useClient`) maybe with a map?
+- Define a function that receive input and send to client so this is like an exec function and the function only gets a string and sends to client
+    - Modify the `useClient` function
 
 - Server could exit but clients should continue running and when server starts again, goes check what clients are still on
 

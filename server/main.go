@@ -34,7 +34,7 @@ func handleRegister(conn net.Conn, server *utils.Server, logger *utils.Logger) {
 }
 
 
-// Function to execute commands on client
+// Function to use a client to send commands
 func useClient(input string, logger *utils.Logger) {
     //TODO: send command to client
     // use <client id>
