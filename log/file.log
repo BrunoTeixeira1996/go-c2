@@ -168,3 +168,5 @@ INFO: 2022/12/13 18:13:44 main.go:141: Listening on localhost:9988
 INFO: 2022/12/13 18:13:46 main.go:35: Client 688bf592-ec15-4bcc-8161-0ada81a1885d added to database
 INFO: 2022/12/13 18:17:18 main.go:141: Listening on localhost:9988
 INFO: 2022/12/13 18:17:20 main.go:35: Client 9a028923-58a0-485c-a673-892083a0867d added to database
+INFO: 2022/12/13 18:59:30 main.go:141: Listening on localhost:9988
+INFO: 2022/12/13 18:59:32 main.go:35: Client b856f26e-8b8d-4794-907f-6d29ad5fe899 added to database
