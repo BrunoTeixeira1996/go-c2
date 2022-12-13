@@ -53,7 +53,6 @@ func execCommand(clientUid string, client utils.Client, server *utils.Server, lo
                 return 1
             } else {
                 server.SendCommandToClient(client, commandToClient, logger)
-                //fmt.Printf("Sent %s to client %#v\n", commandToClient, client)
             }
         }
     }
