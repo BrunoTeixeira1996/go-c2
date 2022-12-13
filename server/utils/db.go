@@ -1,14 +1,14 @@
 package utils
 
 import (
-    "database/sql"
-    "fmt"
-    "log"
+	"database/sql"
+	"fmt"
+	"log"
 
-    _ "github.com/mattn/go-sqlite3"
+	_ "github.com/mattn/go-sqlite3"
 )
 
-
+// Function to setup a db connection
 func setupDBConnection() *sql.DB {
     db, err := sql.Open("sqlite3", "/home/brun0/Desktop/go-c2/c2_db")
     if err != nil {
@@ -32,6 +32,7 @@ func SelectAllClientsQuery() error {
     var client Client
     for rows.Next() {
         rows.Scan(
+            &client.Id,
             &client.Hostname,
             &client.Os,
             &client.Arch,
@@ -40,7 +41,7 @@ func SelectAllClientsQuery() error {
             &client.Uid)
 
         // TODO: make a better format for this
-        fmt.Printf("Id:%s Os: %s\n",client.Uid, client.Os)
+        fmt.Printf("Uid:%s Os: %s\n",client.Uid, client.Os)
     }
 
     return nil
@@ -59,6 +60,32 @@ func InsertNewClientQuery(client Client) error {
     _, err = statement.Exec(client.Hostname, client.Os, client.Arch, client.IP, client.Port, client.Uid)
 
     if err != nil {
+        return err
+    }
+
+    return nil
+}
+
+// Function to check if client exists in database
+func CheckClientExistence(clientUid string) error {
+    db := setupDBConnection()
+    defer db.Close()
+
+    var client Client
+
+    if err := db.QueryRow("SELECT * FROM Clients WHERE Uid = ?", clientUid).
+            Scan(&client.Id,
+                 &client.Hostname,
+                 &client.Os,
+                 &client.Arch,
+                 &client.IP,
+                 &client.Port,
+                 &client.Uid); err != nil {
+
+         if err == sql.ErrNoRows {
+            return fmt.Errorf("There are no Clients with that Uid (%s)\n", clientUid)
+        }
+
         return err
     }
 

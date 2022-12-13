@@ -1,7 +1,6 @@
 # Todo
 
-- Define a function that receive input and send to client so this is like an exec function and the function only gets a string and sends to client
-    - Modify the `useClient` function
+- Working on `execCommand`, next is to send to client the command, execute and then wait for the response
 
 - Server could exit but clients should continue running and when server starts again, goes check what clients are still on
 

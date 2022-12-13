@@ -66,3 +66,47 @@ INFO: 2022/12/13 11:03:29 main.go:151: Listening on localhost:9988
 INFO: 2022/12/13 11:03:31 main.go:66: Client 4cbf2fa2-63dc-4dcf-ae68-f20b4b927355 added to database
 INFO: 2022/12/13 11:17:52 main.go:115: Listening on localhost:9988
 INFO: 2022/12/13 11:17:53 main.go:30: Client 0c670082-f45a-4c23-b6ab-c36af9b36e2b added to database
+INFO: 2022/12/13 12:06:08 main.go:123: Listening on localhost:9988
+INFO: 2022/12/13 12:06:09 main.go:30: Client 889677e3-1770-40d3-b9ae-dc61e578846c added to database
+INFO: 2022/12/13 12:06:41 main.go:123: Listening on localhost:9988
+INFO: 2022/12/13 12:06:43 main.go:30: Client dd082985-8711-457b-853e-06496ca988ab added to database
+INFO: 2022/12/13 12:08:04 main.go:123: Listening on localhost:9988
+INFO: 2022/12/13 12:08:06 main.go:30: Client 728c38bc-bacd-40d8-902d-5a1e5d540951 added to database
+INFO: 2022/12/13 12:08:32 main.go:123: Listening on localhost:9988
+INFO: 2022/12/13 12:08:34 main.go:30: Client d69822b3-5951-4158-941f-ade8f2dcebbe added to database
+INFO: 2022/12/13 12:11:10 main.go:123: Listening on localhost:9988
+INFO: 2022/12/13 12:11:11 main.go:30: Client 243cc959-d10f-45c8-82c7-12c25d81b848 added to database
+INFO: 2022/12/13 12:11:55 main.go:123: Listening on localhost:9988
+INFO: 2022/12/13 12:11:57 main.go:30: Client 62384d76-67a0-4c98-a851-6c6f6fb1c525 added to database
+INFO: 2022/12/13 12:25:15 main.go:131: Listening on localhost:9988
+INFO: 2022/12/13 12:25:17 main.go:30: Client 951dec23-061c-426f-81a2-07ccc993f5bd added to database
+INFO: 2022/12/13 12:25:49 main.go:132: Listening on localhost:9988
+INFO: 2022/12/13 12:25:50 main.go:30: Client 07303d6a-7f82-4417-a285-41099f2b0acf added to database
+INFO: 2022/12/13 12:26:13 main.go:132: Listening on localhost:9988
+INFO: 2022/12/13 12:26:23 main.go:132: Listening on localhost:9988
+INFO: 2022/12/13 12:26:42 main.go:131: Listening on localhost:9988
+INFO: 2022/12/13 12:29:56 main.go:138: Listening on localhost:9988
+INFO: 2022/12/13 12:30:07 main.go:138: Listening on localhost:9988
+INFO: 2022/12/13 12:36:50 main.go:138: Listening on localhost:9988
+INFO: 2022/12/13 12:36:52 main.go:33: Client 2715f0cb-ce41-42d9-aea6-29451645adb7 added to database
+ERROR: 2022/12/13 12:37:01 main.go:63: Failed while trying to CheckClientExistence sql: expected 7 destination arguments in Scan, not 6
+INFO: 2022/12/13 12:38:19 main.go:138: Listening on localhost:9988
+INFO: 2022/12/13 12:38:21 main.go:33: Client 83522a38-ae36-4c81-8f73-f556204f7f56 added to database
+ERROR: 2022/12/13 12:39:09 main.go:63: Failed while trying to CheckClientExistence sql: no rows in result set
+INFO: 2022/12/13 12:41:36 main.go:138: Listening on localhost:9988
+ERROR: 2022/12/13 12:41:47 main.go:63: Failed while trying to CheckClientExistence There are no Clients with that Uid (83522a38-ae36-4c81-8f73-f556204f7f51)
+
+INFO: 2022/12/13 12:42:06 main.go:137: Listening on localhost:9988
+ERROR: 2022/12/13 12:42:08 main.go:62: Failed while trying to CheckClientExistence There are no Clients with that Uid (83522a38-ae36-4c81-8f73-f556204f7f51)
+
+ERROR: 2022/12/13 12:42:15 main.go:62: Failed while trying to CheckClientExistence There are no Clients with that Uid (83522a38-ae36-4c81-8f73-f556204f7f51)
+
+ERROR: 2022/12/13 12:42:22 main.go:62: Failed while trying to CheckClientExistence There are no Clients with that Uid (83522a38-ae36-4c81-8f73-f556204f7f50)
+
+INFO: 2022/12/13 12:42:35 main.go:138: Listening on localhost:9988
+ERROR: 2022/12/13 12:42:40 main.go:63: Failed while trying to CheckClientExistence There are no Clients with that Uid (83522a38-ae36-4c81-8f73-f556204f7f50)
+
+INFO: 2022/12/13 12:45:57 main.go:134: Listening on localhost:9988
+INFO: 2022/12/13 12:45:59 main.go:33: Client 689a37f5-f422-4561-9e9b-837187d89078 added to database
+INFO: 2022/12/13 12:49:06 main.go:138: Listening on localhost:9988
+INFO: 2022/12/13 12:49:08 main.go:33: Client baa0cc74-f6ab-4d69-afc3-a3b7872a9ba5 added to database

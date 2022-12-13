@@ -45,6 +45,7 @@ func (server *Server) SendConfirmationMessageToClient(client *Client, logger *Lo
 
 
 type Client struct {
+    Id       string
     Hostname string
     Os       string
     Arch     string

