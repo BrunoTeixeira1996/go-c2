@@ -67,7 +67,7 @@ func InsertNewClientQuery(client Client) error {
 }
 
 // Function to check if client exists in database
-func CheckClientExistence(clientUid string) error {
+func CheckClientExistence(clientUid string) (Client, error) {
     db := setupDBConnection()
     defer db.Close()
 
@@ -83,13 +83,13 @@ func CheckClientExistence(clientUid string) error {
                  &client.Uid); err != nil {
 
          if err == sql.ErrNoRows {
-            return fmt.Errorf("There are no Clients with that Uid (%s)\n", clientUid)
+            return Client {}, fmt.Errorf("There are no Clients with that Uid (%s)\n", clientUid)
         }
 
-        return err
+        return Client{}, err
     }
 
-    return nil
+    return client, nil
 }
 
 

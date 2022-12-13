@@ -4,6 +4,7 @@ import (
     "net"
     "log"
     "os"
+    "fmt"
     )
 
 
@@ -42,6 +43,19 @@ func (server *Server) SendConfirmationMessageToClient(client *Client, logger *Lo
         clientConn.Write([]byte("REGISTERED"))
     }
 }
+
+
+// Sends command to client
+func (server *Server) SendCommandToClient(client Client, input string, logger *Logger) {
+    clientConn, err := net.Dial("tcp", client.IP+":"+client.Port)
+    if err != nil {
+        logger.ErrorLogger.Println("Error connecting to client socket:", err.Error())
+    } else {
+        fmt.Println(input)
+        clientConn.Write([]byte(input))
+    }
+}
+
 
 
 type Client struct {

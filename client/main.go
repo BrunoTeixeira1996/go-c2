@@ -79,54 +79,74 @@ func registerOnServerSocket() (Client, error) {
 }
 
 // Function that verifies if client was registered
-func verifyRegister(client Client)  error {
+func verifyRegister(client Client)  (net.Listener, error) {
     // Get info from server to verify if we are registered
     clientSocket, err := net.Listen("tcp", client.IP+":"+client.Port)
     if err != nil {
         log.Println("Error listening:", err.Error())
-        return err
+        return nil, err
     }
-
-    defer clientSocket.Close()
 
     fmt.Println("Listening on client socket")
 
     connection, err := clientSocket.Accept()
     if err != nil {
         log.Println("Error accepting server message:", err.Error())
-        return err
+        return nil, err
     }
     
     serverMsg := make([]byte, 1024)
     serverMsgLen, err := connection.Read(serverMsg)
 
 
-    // TODO: make a new register message
     if string(serverMsg[:serverMsgLen]) != "REGISTERED" {
-        return fmt.Errorf("Something went wrong and the client was not registered by server")
+        return nil, fmt.Errorf("Something went wrong and the client was not registered by server")
     }
     
     fmt.Println(string(serverMsg[:serverMsgLen]))
 
-    // Debuging, blocking to test with multiple clients
-    var name string
-    fmt.Scanf("%s", &name)
+    return clientSocket, nil
+}
 
-    return nil
+// Function that recieves commands from server
+func getCommands(client Client, clientSocket net.Listener) error {
+    for {
+        defer clientSocket.Close()
+
+        connection, err := clientSocket.Accept()
+        if err != nil {
+            log.Println("Error accepting server message:", err.Error())
+            return err
+        }
+
+        serverCommand := make([]byte, 1024)
+        serverCommandLen, err := connection.Read(serverCommand)
+
+        if err != nil {
+            return err
+        }
+
+        // TODO: execute commands in here
+        fmt.Println(string(serverCommand[:serverCommandLen]))
+    }
 }
 
 // Function that handles the errors
 func run() error {
-    // Registers on server socket
     client, err := registerOnServerSocket()
     if  err != nil {
         return err
     }
 
     // Verifies if the register was well done
-    if err := verifyRegister(client); err != nil {
+    var clientSocket net.Listener
+
+    if clientSocket, err = verifyRegister(client); err != nil {
         return err
     }
+
+    // Waits for commands from server
+    getCommands(client, clientSocket)
    
    return nil
 }

@@ -19,6 +19,7 @@ exit -> exits the server
 
 var isUid = regexp.MustCompile(`[a-z0-9]{8}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{12}`).MatchString
 
+
 // Function that handles the registration phase
 func handleRegister(conn net.Conn, server *utils.Server, logger *utils.Logger) {
     dec := gob.NewDecoder(conn)
@@ -37,9 +38,8 @@ func handleRegister(conn net.Conn, server *utils.Server, logger *utils.Logger) {
 }
 
 // DOING: Function to execute commands on client
-func execCommand(input string, clientUid string, logger *utils.Logger) int{
+func execCommand(clientUid string, client utils.Client, server *utils.Server, logger *utils.Logger) int {
     for {
-
         reader := bufio.NewReader(os.Stdin)
         fmt.Printf("\ncommand in client (%s) > ", clientUid)
         commandToClient, err := reader.ReadString('\n')
@@ -52,7 +52,8 @@ func execCommand(input string, clientUid string, logger *utils.Logger) int{
             if commandToClient == "back" {
                 return 1
             } else {
-                fmt.Printf("Sent %s to client\n", commandToClient)
+                server.SendCommandToClient(client, commandToClient, logger)
+                //fmt.Printf("Sent %s to client %#v\n", commandToClient, client)
             }
         }
     }
@@ -62,7 +63,7 @@ func execCommand(input string, clientUid string, logger *utils.Logger) int{
 
 
 // Function to use a client to send commands
-func useClient(input string, logger *utils.Logger) {
+func useClient(input string, server *utils.Server, logger *utils.Logger) {
   for {
         if len(strings.Split(input, " ")) == 1 {
             fmt.Println("Please provide the client id to execute commands")
@@ -71,15 +72,18 @@ func useClient(input string, logger *utils.Logger) {
 
         clientUid := strings.Split(input, " ")[1]
 
+        var client utils.Client
+        var err error
+
         if isUid(clientUid) {
-            if err := utils.CheckClientExistence(clientUid); err != nil {
+            if client , err = utils.CheckClientExistence(clientUid); err != nil {
                 logger.ErrorLogger.Printf("Failed while trying to CheckClientExistence %s\n", err)
             }
         } else {
             fmt.Println("This is not a valid Uid for a client")
         }
 
-        if execCommand(input, clientUid, logger) == 1 {
+        if execCommand(clientUid, client, server, logger) == 1 {
             break
         }
 
@@ -97,7 +101,6 @@ func respondsToStdin(server *utils.Server, logger *utils.Logger) {
         if err != nil{
             logger.ErrorLogger.Println("Error while reading the user input")
         } else {
-            // Working on this
             switch {
 
             case strings.Contains(input,"help"):
@@ -110,7 +113,7 @@ func respondsToStdin(server *utils.Server, logger *utils.Logger) {
                 }
 
             case strings.HasPrefix(input, "use"):
-                useClient(input, logger)
+                useClient(input, server, logger)
 
             case strings.Contains(input, "exit"):
                 fmt.Println("Going to exit...")

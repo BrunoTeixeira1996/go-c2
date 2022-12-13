@@ -110,3 +110,37 @@ INFO: 2022/12/13 12:45:57 main.go:134: Listening on localhost:9988
 INFO: 2022/12/13 12:45:59 main.go:33: Client 689a37f5-f422-4561-9e9b-837187d89078 added to database
 INFO: 2022/12/13 12:49:06 main.go:138: Listening on localhost:9988
 INFO: 2022/12/13 12:49:08 main.go:33: Client baa0cc74-f6ab-4d69-afc3-a3b7872a9ba5 added to database
+INFO: 2022/12/13 14:29:50 main.go:142: Listening on localhost:9988
+INFO: 2022/12/13 14:30:59 main.go:142: Listening on localhost:9988
+INFO: 2022/12/13 14:31:01 main.go:33: Client 5977c0da-d4b1-4380-a656-f0366b7eb544 added to database
+INFO: 2022/12/13 14:31:57 main.go:142: Listening on localhost:9988
+INFO: 2022/12/13 14:31:59 main.go:33: Client f7d15cf7-a617-4c3f-8d57-5632ddabf191 added to database
+INFO: 2022/12/13 14:33:19 main.go:143: Listening on localhost:9988
+INFO: 2022/12/13 14:33:21 main.go:34: Client b9cec7b1-cc8a-4bdd-8c2c-f656c87ab022 added to database
+INFO: 2022/12/13 14:37:25 main.go:143: Listening on localhost:9988
+INFO: 2022/12/13 14:37:26 main.go:34: Client 5ff2feb0-d34d-4ad7-8be8-bb29a89eeed1 added to database
+INFO: 2022/12/13 14:40:11 main.go:143: Listening on localhost:9988
+INFO: 2022/12/13 14:40:12 main.go:34: Client 65361635-7f5f-4575-9a8a-610659fb9782 added to database
+INFO: 2022/12/13 14:41:29 main.go:143: Listening on localhost:9988
+INFO: 2022/12/13 14:41:32 main.go:34: Client 33367721-24be-405f-bd78-e655576a2aa0 added to database
+INFO: 2022/12/13 14:43:37 main.go:143: Listening on localhost:9988
+INFO: 2022/12/13 14:43:38 main.go:34: Client 5d5d0ce8-d271-4310-a998-79b1d9726bef added to database
+ERROR: 2022/12/13 14:44:19 structs.go:51: Error connecting to client socket: dial tcp [::1]:9461: connect: connection refused
+INFO: 2022/12/13 14:44:22 main.go:143: Listening on localhost:9988
+INFO: 2022/12/13 14:44:23 main.go:34: Client 3c07ea78-460f-419c-b11b-7cd858e8d93f added to database
+INFO: 2022/12/13 14:47:38 main.go:143: Listening on localhost:9988
+INFO: 2022/12/13 14:47:39 main.go:34: Client 8e65ad7b-d1d3-4c35-9a83-7ca59635ea97 added to database
+ERROR: 2022/12/13 14:47:51 structs.go:51: Error connecting to client socket: dial tcp [::1]:9420: connect: connection refused
+INFO: 2022/12/13 14:49:53 main.go:143: Listening on localhost:9988
+INFO: 2022/12/13 14:49:55 main.go:34: Client 78d02a54-8bce-4dda-8648-8a2527439851 added to database
+INFO: 2022/12/13 14:50:43 main.go:34: Client e9e6575d-9d0d-4f82-9699-0612c9d0af63 added to database
+INFO: 2022/12/13 14:51:54 main.go:143: Listening on localhost:9988
+INFO: 2022/12/13 14:51:56 main.go:34: Client a7317cc1-14e1-4a0b-816d-32943b665abd added to database
+INFO: 2022/12/13 14:52:51 main.go:143: Listening on localhost:9988
+INFO: 2022/12/13 14:52:53 main.go:34: Client dfcb7178-b0f3-49c8-b219-61b427c0718a added to database
+ERROR: 2022/12/13 14:53:05 structs.go:51: Error connecting to client socket: dial tcp [::1]:9703: connect: connection refused
+INFO: 2022/12/13 14:54:07 main.go:34: Client 01226ea6-1ea3-44e1-98fc-344fff44193f added to database
+INFO: 2022/12/13 15:04:25 main.go:143: Listening on localhost:9988
+INFO: 2022/12/13 15:04:26 main.go:34: Client 98b5cbe2-0c80-4f29-a1e9-bc7efcd21aa3 added to database
+INFO: 2022/12/13 15:06:02 main.go:143: Listening on localhost:9988
+INFO: 2022/12/13 15:06:03 main.go:34: Client 570eba5f-b475-48c3-9dc2-d3340fd1ceac added to database
