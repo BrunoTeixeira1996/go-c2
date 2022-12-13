@@ -20,17 +20,17 @@ const (
 )
 
 type Client struct {
-    Id       string
     Hostname string
     Os       string
     Arch     string
     IP       string
     Port     string
+    Uid      string
 }
 
 func (cli *Client) generateRandomId() {
     id := uuid.New()
-    cli.Id = id.String()
+    cli.Uid = id.String()
 }
 
 func (cli *Client) getClientOsAndArch() {

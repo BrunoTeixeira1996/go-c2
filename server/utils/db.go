@@ -17,8 +17,8 @@ func setupDBConnection() *sql.DB {
     return db
 }
 
-
-func SelectAllClientsQuery() {
+// Function that shows all clients from Clients table
+func SelectAllClientsQuery() error {
     db := setupDBConnection()
 
     defer db.Close()
@@ -26,21 +26,24 @@ func SelectAllClientsQuery() {
     rows, err := db.Query("SELECT * FROM Clients")
 
     if err != nil {
-        log.Fatal(err)
+        return err
     }
 
     var client Client
     for rows.Next() {
         rows.Scan(
-            &client.Id,
             &client.Hostname,
             &client.Os,
             &client.Arch,
             &client.IP,
-            &client.Port)
+            &client.Port,
+            &client.Uid)
 
-        fmt.Printf("Id:%s Os: %s\n",client.Id, client.Os)
+        // TODO: make a better format for this
+        fmt.Printf("Id:%s Os: %s\n",client.Uid, client.Os)
     }
+
+    return nil
 }
 
 // Function that inserts new clients into database
@@ -48,13 +51,12 @@ func InsertNewClientQuery(client Client) error {
     db := setupDBConnection()
     defer db.Close()
 
-    statement, err := db.Prepare("INSERT INTO Clients (Hostname, Os, Arch, Ip, Port) VALUES (?, ?, ?, ?, ?)")
-
+    statement, err := db.Prepare("INSERT INTO Clients (Hostname, Os, Arch, Ip, Port, Uid) VALUES (?, ?, ?, ?, ?, ?)")
     if err != nil {
         return err
     }
 
-    _, err = statement.Exec(client.Hostname, client.Os, client.Arch, client.IP, client.Port)
+    _, err = statement.Exec(client.Hostname, client.Os, client.Arch, client.IP, client.Port, client.Uid)
 
     if err != nil {
         return err
