@@ -11,6 +11,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+    "time"
 )
 
 const help = `help -> shows help
@@ -54,6 +55,7 @@ func execCommand(clientUid string, client utils.Client, server *utils.Server, lo
                 return 1
             } else {
                 server.SendCommandToClient(client, commandToClient, logger)
+                time.Sleep(1 * time.Second) // FIXME: bug 1
             }
         }
     }

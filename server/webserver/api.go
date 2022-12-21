@@ -1,8 +1,7 @@
 package webserver
 
 import (
-	//"fmt"
-    //"html/template"
+	"fmt"
     "net/http"
     "encoding/json"
     "go-c2/server/utils"
@@ -23,8 +22,8 @@ func server() {
             return
         }
 
-        //fmt.Println("got data:", data) // if this is uncommented a bug happens when doing commands to client
         w.WriteHeader(http.StatusCreated)
+        fmt.Printf("%s\n", data.Result)
     })
 
     if err := http.ListenAndServe(":8080", nil); err != http.ErrServerClosed {
@@ -35,5 +34,5 @@ func server() {
 
 // Function to start the server as a go routine
 func RunAPI() {
-    go server()
+    server()
 }

