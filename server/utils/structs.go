@@ -4,6 +4,7 @@ import (
     "net"
     "log"
     "os"
+    "fmt"
     )
 
 
@@ -50,7 +51,14 @@ func (server *Server) SendCommandToClient(client Client, input string, logger *L
     if err != nil {
         logger.ErrorLogger.Println("Error connecting to client socket:", err.Error())
     } else {
-        clientConn.Write([]byte(input))
+        if input != "shell" {
+            logger.ErrorLogger.Println("Error, command not found -> ", input)
+        } else {
+            clientConn.Write([]byte(input))
+            fmt.Println(input)
+            // TODO: start nc here
+            // maybe use a nc implementation in go, or try to execute from os.exec
+        }
     }
 }
 
