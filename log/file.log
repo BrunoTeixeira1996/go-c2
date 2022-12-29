@@ -227,3 +227,22 @@ INFO: 2022/12/28 19:20:34 main.go:143: Listening on localhost:9988
 INFO: 2022/12/28 19:20:36 main.go:36: Client 105e8a2d-27ac-4585-a41c-ba47ed7737c1 added to database
 INFO: 2022/12/28 19:22:20 main.go:143: Listening on localhost:9988
 INFO: 2022/12/28 19:22:28 main.go:36: Client 955b7f64-960e-4155-82ac-11cfade99f1c added to database
+INFO: 2022/12/29 19:27:42 main.go:143: Listening on localhost:9988
+INFO: 2022/12/29 19:27:43 main.go:36: Client eba4c89b-404d-478b-930e-0a868faefe53 added to database
+INFO: 2022/12/29 19:31:33 main.go:143: Listening on localhost:9988
+INFO: 2022/12/29 19:31:35 main.go:36: Client faf8992b-07d8-4c6e-bd95-4a892b521ce5 added to database
+ERROR: 2022/12/29 19:31:48 structs.go:56: Error, command not found ->  ls
+INFO: 2022/12/29 19:32:28 main.go:143: Listening on localhost:9988
+INFO: 2022/12/29 19:32:29 main.go:36: Client 1235264a-95e2-4d43-b1ea-396ce4ca99e6 added to database
+INFO: 2022/12/29 19:35:15 main.go:143: Listening on localhost:9988
+INFO: 2022/12/29 19:35:22 main.go:36: Client 50b3b2b0-da88-4b04-b459-bdd4af075dad added to database
+INFO: 2022/12/29 19:44:55 main.go:143: Listening on localhost:9988
+INFO: 2022/12/29 19:44:56 main.go:36: Client 243ffeb0-a566-4784-b960-0a32d1153e02 added to database
+ERROR: 2022/12/29 19:45:35 structs.go:57: Error, command not found ->  
+INFO: 2022/12/29 19:45:52 main.go:143: Listening on localhost:9988
+INFO: 2022/12/29 19:45:54 main.go:36: Client ec121e32-d8d2-4c4e-9f59-4e25b63efb5b added to database
+INFO: 2022/12/29 19:46:35 main.go:143: Listening on localhost:9988
+INFO: 2022/12/29 19:46:38 main.go:36: Client 1a42ce94-289d-4975-9824-cf5a821ebb92 added to database
+INFO: 2022/12/29 19:47:23 main.go:143: Listening on localhost:9988
+INFO: 2022/12/29 19:47:24 main.go:36: Client d66ca97e-1a51-4406-90f3-a7b8763a0eda added to database
+ERROR: 2022/12/29 19:48:10 structs.go:57: Error, command not found ->  exit
