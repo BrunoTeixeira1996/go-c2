@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-
+    "strings"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -41,7 +41,7 @@ func SelectAllClientsQuery() error {
             &client.Uid)
 
         // TODO: make a better format for this
-        fmt.Printf("Uid:%s Os: %s\n",client.Uid, client.Os)
+        fmt.Printf("Id: %s Uid:%s Os: %s\n", client.Id, client.Uid, client.Os)
     }
 
     return nil
@@ -67,13 +67,21 @@ func InsertNewClientQuery(client Client) error {
 }
 
 // Function to check if client exists in database
-func CheckClientExistence(clientUid string) (Client, error) {
+func CheckClientExistence(id string) (Client, error) {
     db := setupDBConnection()
     defer db.Close()
 
     var client Client
+    var query string
 
-    if err := db.QueryRow("SELECT * FROM Clients WHERE Uid = ?", clientUid).
+    // check if is Id or Uid
+    if strings.Contains(id, "-") {
+        query = "SELECT * FROM Clients WHERE Uid = ?"
+    } else {
+        query = "SELECT * FROM Clients WHERE Id = ?"
+    }
+
+    if err := db.QueryRow(query, id).
             Scan(&client.Id,
                  &client.Hostname,
                  &client.Os,
@@ -83,7 +91,7 @@ func CheckClientExistence(clientUid string) (Client, error) {
                  &client.Uid); err != nil {
 
          if err == sql.ErrNoRows {
-            return Client {}, fmt.Errorf("There are no Clients with that Uid (%s)\n", clientUid)
+            return Client {}, fmt.Errorf("There are no Clients with that Uid (%s)\n", id)
         }
 
         return Client{}, err

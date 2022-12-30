@@ -16,10 +16,13 @@ import (
 
 const help = `help -> shows help
 showClients -> shows connected available clients
+use [id/Uid] -> use a client to send commands
+back (inside the use command) -> comes back to the main menu
 exit -> exits the server
 `
 
 var isUid = regexp.MustCompile(`[a-z0-9]{8}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{4}\-[a-z0-9]{12}`).MatchString
+var isId = regexp.MustCompile(`[0-9]*`).MatchString
 
 
 // Function that handles the registration phase
@@ -72,20 +75,24 @@ func useClient(input string, server *utils.Server, logger *utils.Logger) {
             break
         }
 
-        clientUid := strings.Split(input, " ")[1]
+        id := strings.Split(input, " ")[1]
 
         var client utils.Client
         var err error
 
-        if isUid(clientUid) {
-            if client , err = utils.CheckClientExistence(clientUid); err != nil {
+        if isUid(id) {
+            if client , err = utils.CheckClientExistence(id); err != nil {
+                logger.ErrorLogger.Printf("Failed while trying to CheckClientExistence %s\n", err)
+            }
+        } else if isId(id) {
+            if client, err = utils.CheckClientExistence(id); err != nil {
                 logger.ErrorLogger.Printf("Failed while trying to CheckClientExistence %s\n", err)
             }
         } else {
-            fmt.Println("This is not a valid Uid for a client")
+            fmt.Println("This is not a valid Id/Uid for a client")
         }
 
-        if execCommand(clientUid, client, server, logger) == 1 {
+        if execCommand(id, client, server, logger) == 1 {
             break
         }
 
